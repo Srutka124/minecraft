@@ -61,9 +61,9 @@ class Hero():
         pos = self.look_at(angle)
         self.hero.setPos(pos)
 
-    def try_move(self,ange):
+    def try_move(self,angle):
         pos = self.look_at(angle)
-        if self.map.isEmpy(pos):
+        if self.land.isEmpty(pos):
             pos = self.land.findHightestEmpty(pos)
             self.hero.setPos(pos)
         else:
@@ -71,11 +71,11 @@ class Hero():
             if  self.map.isEmpty(pos):
                 self.hero.setPos(pos)
 
-    def move_to(self,angel):
+    def move_to(self,angle):
         if self.mode  == True:
-            self.Just_move(angel)
+            self.Just_move(angle)
         else:
-            self.try_move(angel)
+            self.try_move(angle)
         
     def forward(self):
         angle = self.hero.getH() % 360
@@ -88,7 +88,7 @@ class Hero():
         angle = (self.hero.getH()+90)   %360
         self.move_to(angle)
     def right(self):
-        angle = (self.hero.getH()+90)   %360
+        angle = (self.hero.getH()-90)   %360
         self.move_to(angle)
     def up(self):
         
@@ -99,6 +99,23 @@ class Hero():
 
     def changeMode(self):
         self.mode = not self.mode
+    
+    def bild (self):
+        angle = self.hero.getH() % 360
+        pos = self.look_at(angle)
+        
+        if self.mode :
+            self.land.addBlock(pos)
+        
+    def destory(self):
+        angle = self.hero.getH() % 360
+        pos = self.look_at(angle)
+        if self.mode:
+            self.land.delBlock(pos)
+        else:
+            self.land.delBlockFrom(pos)
+
+        
     def accept_events(self):
         base.accept('n', self.turn_left)
         base.accept('n-repeat', self.turn_left)
@@ -116,5 +133,6 @@ class Hero():
         base.accept('e-repeat', self.up)
         base.accept('q', self.down)
         base.accept('q-repeat', self.down)
-        base.accept('z', self.down)
-        base.accept('z-repeat', self.down)
+        base.accept('z', self.changeMode)
+        base.accept('b', self.bild)
+        base.accept('v', self.destory)
