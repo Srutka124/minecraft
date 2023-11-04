@@ -4,8 +4,8 @@ import pickle
 map
 class MapManager:
     def __init__(self):
-        self.model = 'block.egg'
-        self.texture = 'block.png'
+        self.model  = 'block.egg'
+        self.texture = 'bloook.jpg'
         self.color = (0.2 , 0.2 , 0.35 , 1)
 
         self.addNew()
@@ -69,14 +69,13 @@ class MapManager:
     def clear(self):
         self.land.removeNode()
         self.startNew()
+    
+        
     def loadLend(self):
-        self.clear()
-        with open("map.dat" , "rb")as file:
+        with open("map.dat", 'rb') as file:
             lenght = pickle.load(file)
-
-
             for i in range(lenght):
-                pos = pickle.load(file)
+                pos = pickle.load()
                 self.addBlock(pos, 'block')
 
 
@@ -89,13 +88,16 @@ class MapManager:
         else:
             return True
         
-    def findHightestEmpy(self,pos):
-        x, y , z = pos
-        z =1 
-        while not self.isEmpty((x,y,z)):
-            z =+ 1
+    def findHighestEmpty(self, pos):
+        x, y, z = pos
+        z = 1
 
-            return (x,y,z)
+        while not self.isEmpty((x,y,z)):
+
+            z += 1
+            
+
+        return (x, y, z)
 
 
 
