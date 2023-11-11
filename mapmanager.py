@@ -18,6 +18,7 @@ class MapManager:
         """
         self.land = render.attachNewNode('Land')
     def addBlock(self,position):
+        x , y ,z = position
         a = randint(1,3)
         cube = loader.loadModel(self.model)
         if a == 1 :
@@ -26,10 +27,12 @@ class MapManager:
             
         elif a == 3 :
             cube_texture = loader.loadTexture(self.kamin)
-        else :
+
+        elif a == 2 :
             cube_texture = loader.loadTexture(self.blok)
 
-        
+        else:
+            cube_texture = loader.loadTexture(self.blok)
 
 
         cube.setTexture(cube_texture)

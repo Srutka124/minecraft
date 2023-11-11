@@ -92,8 +92,7 @@ class Hero():
         
     def forward(self):
         angle = self.hero.getH() % 360
-        pos = self.look_at(angle)
-        self.hero.setPos(pos)
+        self.move_to(angle)
         fw = True
     def back (self):
         angle = (self.hero.getH()+180)  %360
@@ -131,13 +130,12 @@ class Hero():
             self.land.delBlock(pos)
         else:
             self.land.delBlockFrom(pos)
-    def jamp (self,angle,):
+    def jamp (self,angle):
         pos = self.look_at(angle)
+        
         if fd == True:
-            
-            pos = pos[0], pos[1] , pos[2] +3 
-            if self.land.isEmpty(pos):
-                self.hero.setPos(pos)
+            pos = pos[0], pos[1] , pos[2] +10
+            self.hero.setPos(pos)
         elif bk == True:
             
             pos = pos[0], pos[1] , pos[2] +3
@@ -184,3 +182,4 @@ class Hero():
         base.accept('v', self.destory)
         base.accept('r', self.destory)
         base.accept('r-repeat', self.destory)
+        base.accept('f' , self.jamp)
