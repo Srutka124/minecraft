@@ -7,6 +7,11 @@ class Hero():
         self.hero.setPos(pos)
         self.hero.reparentTo(render)
         self.mode = True
+        self.fw = True
+        self.bk = False
+        self.lf = False
+        self.rg = False
+        self.jemp = False
         self.cameraBind()
         self.accept_events()
 
@@ -28,6 +33,10 @@ class Hero():
 
     def turn_right(self):
         self.hero.setH((self.hero.getH()-5)%360)
+    def turn_left60(self):
+        self.hero.setH((self.hero.getH()+90)%360)
+    def turn_right60(self):
+        self.hero.setH((self.hero.getH()-90)%360)
     def checkdir(self, angle):
         if angle >= 0 and angle <= 20:
             return (0, -1)
@@ -63,7 +72,7 @@ class Hero():
 
     def try_move(self, angle):
         pos = self.look_at(angle)
-
+        
         if self.land.isEmpty(pos):
             pos = self.land.findHighestEmpty(pos)
             self.hero.setPos(pos)
@@ -85,15 +94,19 @@ class Hero():
         angle = self.hero.getH() % 360
         pos = self.look_at(angle)
         self.hero.setPos(pos)
+        fw = True
     def back (self):
         angle = (self.hero.getH()+180)  %360
         self.move_to(angle)
+        bk = True
     def left (self):
         angle = (self.hero.getH()+90)   %360
         self.move_to(angle)
+        lf = True
     def right(self):
         angle = (self.hero.getH()-90)   %360
         self.move_to(angle)
+        rg = True
     def up(self):
         
         self.hero.setZ(self.heroZ()+1)
@@ -118,14 +131,40 @@ class Hero():
             self.land.delBlock(pos)
         else:
             self.land.delBlockFrom(pos)
-    
+    def jamp (self,angle,):
+        pos = self.look_at(angle)
+        if fd == True:
+            
+            pos = pos[0], pos[1] , pos[2] +3 
+            if self.land.isEmpty(pos):
+                self.hero.setPos(pos)
+        elif bk == True:
+            
+            pos = pos[0], pos[1] , pos[2] +3
+            if self.land.isEmpty(pos):
+                self.hero.setPos(pos)
+        elif lf == True:
+            
+            pos = pos[0], pos[1] , pos[2] +3
+            if self.land.isEmpty(pos):
+                self.hero.setPos(pos)
+        elif rg == True:
+            
+            pos = pos[0], pos[1], pos[2] +3
+            if self.land.isEmpty(pos):
+                self.hero.setPos(pos)
+        jemp = True
+
+        
     
         
 
         
     def accept_events(self):
         base.accept('n', self.turn_left)
+        base.accept('k', self.turn_left60)
         base.accept('n-repeat', self.turn_left)
+        base.accept('l', self.turn_right60)
         base.accept('m', self.turn_right)
         base.accept('m-repeat', self.turn_right)
         base.accept('w', self.forward)
@@ -143,4 +182,5 @@ class Hero():
         base.accept('z', self.changeMode)
         base.accept('b', self.bild)
         base.accept('v', self.destory)
-        
+        base.accept('r', self.destory)
+        base.accept('r-repeat', self.destory)

@@ -1,12 +1,15 @@
 
 import pickle
-
+from random import randint
 map
 class MapManager:
     def __init__(self):
         self.model  = 'block.egg'
         self.texture = 'bloook.jpg'
-        self.color = (0.2 , 0.2 , 0.35 , 1)
+        self.kamin = 'kamin.jpg'
+        self.blok = 'block.png'
+        self.bek = 'lamBloc.jpg'
+        self.color = (1 , 2 , 6 , 10)
 
         self.addNew()
         
@@ -15,9 +18,18 @@ class MapManager:
         """
         self.land = render.attachNewNode('Land')
     def addBlock(self,position):
-        
+        a = randint(1,3)
         cube = loader.loadModel(self.model)
-        cube_texture = loader.loadTexture(self.texture)
+        if a == 1 :
+            cube_texture = loader.loadTexture(self.texture)
+
+            
+        elif a == 3 :
+            cube_texture = loader.loadTexture(self.kamin)
+        else :
+            cube_texture = loader.loadTexture(self.blok)
+
+        
 
 
         cube.setTexture(cube_texture)
@@ -32,7 +44,7 @@ class MapManager:
            block.removeNode()
         
     def delBlockFrom (self, pos):
-        x,y,z = self.findHightestEmpy(pos)
+        x,y,z = self.findHighestEmpty(pos)
         pos = x , y , z-1
         blocks = self.findBlock(pos)
         for block in blocks :
@@ -48,6 +60,7 @@ class MapManager:
     def loadMap(self, filename):
          """зчитування карти """
          with open(filename) as file :
+            
             y = 0 
             for line in file :
                 x = 0
@@ -56,6 +69,10 @@ class MapManager:
                     if(number != "\n"):
                         for z in range(int(number)+1):
                             self.addBlock((x,y,z))
+                            
+                                
+                               
+                               
                         x +=1
                 y+= 1
     def saveMap(self):
